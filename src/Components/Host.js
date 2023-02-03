@@ -1,6 +1,6 @@
 const DATA = {
-  // URL: "https://sudo-delete-web-service-tech-fest-backend.onrender.com"
-  URL: "http://horizon-iiitvicd.in:3001",
+  // URL: "https://iiit.centralindia.cloudapp.azure.com"
+  URL: "https://iiit.centralindia.cloudapp.azure.com",
 };
 
 export default DATA;

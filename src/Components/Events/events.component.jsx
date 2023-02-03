@@ -1,12 +1,13 @@
 import Card from "../Tile-card/Card.component";
 import "./events.component.css";
 import TalkCard from "../Tile-card/talkcard";
+import { NavLink } from "react-router-dom";
 
 const Events = () => {
   const checkvalid = () => {
     const authtoken = localStorage.getItem("auth-token");
     if (!authtoken) {
-      alert("Please Login To Continue");
+      alert("Login");
     }
   };
   return (
@@ -100,12 +101,12 @@ const Events = () => {
           </h4>
         </div>
         <div className="event-div two">
-          <a href="/timeline">
+          <NavLink className="btn" to="/timeline">
             {" "}
             <button className="timeline-button">
               <h4 className="timeline-button-text">VIEW TIMELINE</h4>
             </button>
-          </a>
+          </NavLink>
         </div>
       </div>
     </div>

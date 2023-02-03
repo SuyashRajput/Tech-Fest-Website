@@ -36,11 +36,11 @@ function Home() {
           <EventName>events</EventName>
         </Event>
         <Price>
-          <PriceNum>42.5K+</PriceNum>
-          <PriceName>prizes</PriceName>
+          <PriceNum>500K+</PriceNum>
+          <PriceName>Worth Rewards</PriceName>
         </Price>
         <Days>
-          <DaysNum>12</DaysNum>
+          <DaysNum>11</DaysNum>
           <DaysName>days</DaysName>
         </Days>
       </NumTag>
@@ -182,7 +182,7 @@ const Data = styled.div`
     line-height: 17px;
     letter-spacing: 0em;
     text-align: left;
-    width: 480px;
+    max-width: 480px;
   }
   @media (max-width: 667px) {
     font-family: Poppins;

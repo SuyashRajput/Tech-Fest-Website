@@ -7,7 +7,7 @@ import { Backdrop } from "@mui/material";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import "./login_signup.css";
 
-function SignIn({ setLogin, setSignUp, login, headPerin, goHome }) {
+function SignIn({ setLogin, setSignUp, login, headPerin }) {
   const host = Data.URL;
   const [open, setOpen] = useState(false);
 
@@ -45,6 +45,7 @@ function SignIn({ setLogin, setSignUp, login, headPerin, goHome }) {
       setResponse("Invalid credentials");
       setOpen(false);
     }
+    setOpen(false);
   }
 
   return (
@@ -63,7 +64,6 @@ function SignIn({ setLogin, setSignUp, login, headPerin, goHome }) {
           <Close
             onClick={() => {
               document.body.style.overflow = "auto";
-              if (goHome) window.location.href = `https://hf2gk1.csb.app/`;
               return setLogin(false);
             }}
           ></Close>
@@ -139,32 +139,37 @@ function SignIn({ setLogin, setSignUp, login, headPerin, goHome }) {
 
 export default SignIn;
 
-const container = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  background-color: rgba(7, 7, 7, 0.75);
-  z-index: 2;
-  font-family: "bujji", sans-serif;
-`;
+// const container = styled.div`
+//   position: fixed;
+//   width: 100vw;
+//   height: 100vh;
+//   top: 0;
+//   background-color: rgba(7, 7, 7, 0.75);
+//   z-index: 2;
+//   font-family: "bujji", sans-serif;
+// `;
 
 const Wrap = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
   overflow: auto;
   position: relative;
-  margin: auto;
   color: white;
   padding: 40px 0px;
   width: 40%;
-  height: auto;
-  background: rgba(19, 105, 198, 0.6);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 10px;
+
+  background: linear-gradient(
+    114.88deg,
+    rgba(209, 45, 45, 0.6) 9.29%,
+    rgba(30, 20, 157, 0.6) 49.91%,
+    rgba(209, 45, 45, 0.6) 89.51%
+  );
+  backdrop-filter: blur(50px);
+
+  border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   justify-content: center;

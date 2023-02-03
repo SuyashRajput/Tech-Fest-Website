@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Data from "../Host";
 import { Backdrop } from "@mui/material";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-function SignUp({ signUp, setSignUp, setLogin, goHome }) {
+function SignUp({ signUp, setSignUp, setLogin }) {
   const host = Data.URL;
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
   const [FN, SetFN] = useState("");
@@ -22,6 +24,7 @@ function SignUp({ signUp, setSignUp, setLogin, goHome }) {
   var [response, setResponse] = useState("");
 
   async function postUserDetails(e) {
+    setOpen(true);
     e.preventDefault();
     const formimgData = new FormData();
     formimgData.append("proof", proof);
@@ -67,180 +70,190 @@ function SignUp({ signUp, setSignUp, setLogin, goHome }) {
       setResponse("Please agree the terms & conditions");
     }
     e.preventDefault();
+    setOpen(false);
   }
 
   return (
-    <Backdrop
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={signUp}
-    >
-      <Wrap>
-        <Close
-          onClick={() => {
-            document.body.style.overflow = "auto";
-            if (goHome) window.location.href = `https://hf2gk1.csb.app/`;
-            setSignUp(false);
-          }}
-        ></Close>
+    <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 2 }}
+        open={open}
+      >
+        <LoadingSpinner />
+      </Backdrop>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={signUp}
+      >
+        <Wrap>
+          <Close
+            onClick={() => {
+              document.body.style.overflow = "auto";
+              setSignUp(false);
+            }}
+          ></Close>
 
-        <form action="" method="" onSubmit={postUserDetails}>
-          <div className="div_perin heading_perin">
-            <h2 className="h2_perin">SIGN UP</h2>
+          <form action="" method="" onSubmit={postUserDetails}>
+            <div className="div_perin heading_perin">
+              <h2 className="h2_perin">SIGN UP</h2>
 
-            <p className="p_perin">
-              Already Registered?{" "}
-              <a
-                className="a_perin"
-                onClick={() => {
-                  setLogin(true);
-                  setSignUp(false);
+              <p className="p_perin">
+                Already Registered?{" "}
+                <a
+                  className="a_perin"
+                  onClick={() => {
+                    setLogin(true);
+                    setSignUp(false);
+                  }}
+                >
+                  Login
+                </a>
+              </p>
+              <p className="p_perin"> {response} </p>
+            </div>
+            <div className="div_perin name_home">
+              <label className="label_perin" htmlFor="">
+                Name
+              </label>
+              <br />
+              <input
+                onChange={(e) => {
+                  SetFN(e.target.value);
                 }}
-              >
-                Login
-              </a>
-            </p>
-            <p className="p_perin"> {response} </p>
-          </div>
-          <div className="div_perin name_home">
-            <label className="label_perin" htmlFor="">
-              Name
-            </label>
-            <br />
-            <input
-              onChange={(e) => {
-                SetFN(e.target.value);
-              }}
-              className="input_perin"
-              required={true}
-              type="text"
-              name="name"
-            />
-          </div>
-          <div className="div_perin gender">
-            <label className="label_perin gen">Gender</label>
+                className="input_perin"
+                required={true}
+                type="text"
+                name="name"
+              />
+            </div>
+            <div className="div_perin gender">
+              <label className="label_perin gen">Gender</label>
 
-            <select onChange={(e) => SetGR(e.target.value)}>
-              <option value="male"></option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
+              <select onChange={(e) => SetGR(e.target.value)}>
+                <option value="none" selected disabled hidden>
+                  Select an Option
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
 
-          <div className="div_perin email">
-            <label className="label_perin" htmlFor="">
-              Email (Institute ID preferred)
-            </label>
-            <br />
-            <input
-              onChange={(e) => SetML(e.target.value)}
-              className="input_perin"
-              name="email"
-              required={true}
-              type="email"
-            />
-          </div>
-          <div className="div_perin password">
-            <label className="label_perin" htmlFor="">
-              Password
-            </label>
-            <br />
-            <input
-              onChange={(e) => SetPD(e.target.value)}
-              className="input_perin"
-              name="password"
-              required={true}
-              type="password"
-            />
-          </div>
-          <div className="div_perin password">
-            <label className="label_perin" htmlFor="">
-              Re-enter Password
-            </label>
-            <br />
-            <input
-              onChange={(e) => SetCPD(e.target.value)}
-              className="input_perin"
-              required={true}
-              type="password"
-            />
-          </div>
-          <div className="div_perin password">
-            <label className="label_perin" htmlFor="">
-              Contact Number
-            </label>
-            <br />
-            <input
-              onChange={(e) => SetMN(e.target.value)}
-              className="input_perin"
-              required={true}
-              type="number"
-              name="number"
-            />
-          </div>
-          <div className="div_perin password">
-            <label className="label_perin" htmlFor="">
-              Name of the Institute
-            </label>
-            <br />
-            <input
-              onChange={(e) => SetIN(e.target.value)}
-              className="input_perin"
-              name="institute"
-              required={true}
-              type="text"
-            />
-          </div>
-          <div className="div_perin password">
-            <label className="label_perin" htmlFor="">
-              Proof of Enrollment in Institute (Please upload either Jpg or Png
-              file with filesize less than 2MB)
-            </label>
-            <br />
-            <input
-              //   onChange={handleFileChange}
-              onChange={(e) => SetProof(e.target.files[0])}
-              className="input_perin"
-              name="proof"
-              required={true}
-              type="file"
-            />
-          </div>
-          <div className="div_perin password">
-            <br />
-            <input
-              onClick={(e) => SetCheckbox(true)}
-              className="checkbox_perin"
-              required={true}
-              type="checkbox"
-              name="checkbox"
-            />
-            <label className="label_perin" htmlFor="">
-              I hereby declare that all the information provided by me are
-              correct. I also agree to follow all the guidelines of the fest and
-              agree to the fact that in case of any discrepancy, the decision of
-              the organizers will be final and binding.
-            </label>
-          </div>
-          <div className="div_perin">
-            <button type="submit">SIGN UP</button>
-          </div>
-        </form>
-      </Wrap>
-    </Backdrop>
+            <div className="div_perin email">
+              <label className="label_perin" htmlFor="">
+                Email (Institute ID preferred)
+              </label>
+              <br />
+              <input
+                onChange={(e) => SetML(e.target.value)}
+                className="input_perin"
+                name="email"
+                required={true}
+                type="email"
+              />
+            </div>
+            <div className="div_perin password">
+              <label className="label_perin" htmlFor="">
+                Password
+              </label>
+              <br />
+              <input
+                onChange={(e) => SetPD(e.target.value)}
+                className="input_perin"
+                name="password"
+                required={true}
+                type="password"
+              />
+            </div>
+            <div className="div_perin password">
+              <label className="label_perin" htmlFor="">
+                Re-enter Password
+              </label>
+              <br />
+              <input
+                onChange={(e) => SetCPD(e.target.value)}
+                className="input_perin"
+                required={true}
+                type="password"
+              />
+            </div>
+            <div className="div_perin password">
+              <label className="label_perin" htmlFor="">
+                Contact Number
+              </label>
+              <br />
+              <input
+                onChange={(e) => SetMN(e.target.value)}
+                className="input_perin"
+                required={true}
+                type="number"
+                name="number"
+              />
+            </div>
+            <div className="div_perin password">
+              <label className="label_perin" htmlFor="">
+                Name of the Institute
+              </label>
+              <br />
+              <input
+                onChange={(e) => SetIN(e.target.value)}
+                className="input_perin"
+                name="institute"
+                required={true}
+                type="text"
+              />
+            </div>
+            <div className="div_perin password">
+              <label className="label_perin" htmlFor="">
+                Proof of Enrollment in Institute (Please upload either Jpg or
+                Png file with filesize less than 2MB)
+              </label>
+              <br />
+              <input
+                //   onChange={handleFileChange}
+                onChange={(e) => SetProof(e.target.files[0])}
+                className="input_perin"
+                name="proof"
+                required={true}
+                type="file"
+              />
+            </div>
+            <div className="div_perin password">
+              <br />
+              <input
+                onClick={(e) => SetCheckbox(true)}
+                className="checkbox_perin"
+                required={true}
+                type="checkbox"
+                name="checkbox"
+              />
+              <label className="label_perin" htmlFor="">
+                I hereby declare that all the information provided by me are
+                correct. I also agree to follow all the guidelines of the fest
+                and agree to the fact that in case of any discrepancy, the
+                decision of the organizers will be final and binding.
+              </label>
+            </div>
+            <div className="div_perin">
+              <button type="submit">SIGN UP</button>
+            </div>
+          </form>
+        </Wrap>
+      </Backdrop>
+    </>
   );
 }
 
 export default SignUp;
 
-const Container = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  background-color: rgba(7, 7, 7, 0.75);
-  z-index: 2;
-  font-family: "bujji", sans-serif;
-`;
+// const Container = styled.div`
+//   position: fixed;
+//   width: 100vw;
+//   height: 100vh;
+//   top: 0;
+//   background-color: rgba(7, 7, 7, 0.75);
+//   z-index: 2;
+//   font-family: "bujji", sans-serif;
+// `;
 const Wrap = styled.div`
   &::-webkit-scrollbar {
     display: none;
@@ -255,11 +268,15 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
 
-  background: rgba(19, 105, 198, 0.6);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 10px;
+  background: linear-gradient(
+    114.88deg,
+    rgba(209, 45, 45, 0.6) 9.29%,
+    rgba(30, 20, 157, 0.6) 49.91%,
+    rgba(209, 45, 45, 0.6) 89.51%
+  );
+  backdrop-filter: blur(50px);
+
+  border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 
   @media (max-width: 667px) {
@@ -399,9 +416,10 @@ const Wrap = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #b2016b;
+    background: red;
     border: 0px;
     margin-top: 20px;
+    font-family: "bujji", sans-serif;
 
     &:hover {
       background: transparent;
@@ -445,6 +463,7 @@ const Wrap = styled.div`
     .h2_perin {
       font-size: 45px;
       font-weight: 900;
+      font-family: "bujji", sans-serif;
 
       @media (min-width: 669px) and (max-width: 1150px) {
         font-size: 26px;
@@ -497,7 +516,7 @@ const Wrap = styled.div`
         font-weight: 400;
         text-align: left;
         text-decoration: underline;
-        color: #fc0198;
+        color: red;
         font-weight: bold;
 
         @media (min-width: 669px) and (max-width: 1150px) {
